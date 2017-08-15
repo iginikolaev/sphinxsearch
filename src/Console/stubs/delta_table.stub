@@ -1,0 +1,34 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateSphinxTriggerTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('sphinx_trigger', function (Blueprint $table) {
+            $table->string('index_name');
+            $table->integer('last_id')->nullable();
+            $table->integer('last_timestamp')->nullable();
+
+            $table->unique('index_name');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('sphinx_trigger');
+    }
+}
