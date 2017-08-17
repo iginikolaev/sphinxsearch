@@ -33,11 +33,6 @@ class ModelGenerator
     protected $model;
 
     /**
-     * @var string
-     */
-    protected $modelName;
-
-    /**
      * @var array
      */
     protected $sections = [];
@@ -61,7 +56,6 @@ class ModelGenerator
     public function generate($modelName)
     {
         $this->model = new $modelName;
-        $this->modelName = $this->model->getSphinxName();
 
         $source = $this->makeSource();
         // Unsuuported connection driver and no parent
@@ -149,7 +143,7 @@ class ModelGenerator
         }
 
         $source = new SourceSection($this->config);
-        $source->setName($this->modelName . '_source')
+        $source->setName($this->model->getSphinxSourceName())
             ->setParent($parent)
             ->setParams($params);
 
@@ -166,7 +160,7 @@ class ModelGenerator
         $parent = $this->model->getSphinxIndexParentName();
 
         $index = new IndexSection($this->config);
-        $index->setName($this->modelName . '_index')
+        $index->setName($this->model->getSphinxIndexName())
             ->setParent($parent);
 
         $params = [];
@@ -218,7 +212,7 @@ class ModelGenerator
         }
 
         $delta = new SourceSection($this->config);
-        $delta->setName($this->modelName . '_delta_source')
+        $delta->setName($this->model->getSphinxDeltaSourceName())
             ->setParent($source)
             ->setParams($params);
 
@@ -234,7 +228,7 @@ class ModelGenerator
     private function makeDeltaIndex(IndexSection $index, SourceSection $deltaSource)
     {
         $delta = new IndexSection($this->config);
-        $delta->setName($this->modelName . '_delta_index')
+        $delta->setName($this->model->getSphinxDeltaIndexName())
             ->setParent($index);
 
         $params = [];
