@@ -69,7 +69,7 @@ return [
          */
         'additional_sections' => [
             'indexer' => [
-                'mem_limit' => '128MB',
+                'mem_limit' => '128M',
             ],
             'common' => [
                 'lemmatizer_base' => env('SPH_LEMMATIZER_BASE'), // storage_path('sphinx/dict')
