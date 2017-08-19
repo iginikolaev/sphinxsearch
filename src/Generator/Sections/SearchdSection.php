@@ -40,6 +40,11 @@ class SearchdSection extends AbstractUnnamedSection
             $listenMysqlPort ? ($listenMysqlPort . ':mysql41') : null,
         ], (array)Arr::get($params, 'listen', []));
 
+        $host = Arr::get($this->config, 'host');
+        $paramsNormalized['listen'] = array_map(function ($v) use ($host) {
+            return $host . ':' . $v;
+        }, $paramsNormalized['listen']);
+
         // Searchd log
         $paramsNormalized['log'] = $logsDir . '/searchd.log';
 
