@@ -2,6 +2,7 @@
 
 namespace Iginikolaev\SphinxSearch\Generator;
 
+use Doctrine\DBAL\Driver\PDOConnection;
 use Iginikolaev\SphinxSearch\Generator\Sections\IndexSection;
 use Iginikolaev\SphinxSearch\Generator\Sections\SourceSection;
 use Iginikolaev\SphinxSearch\SphinxSearchableGeneratable;
@@ -121,7 +122,7 @@ class ModelGenerator
             $queries = is_object($queries) ? [$queries] : (array)$queries;
             foreach ($queries as $query) {
                 if ($query instanceof Builder) {
-                    $query = Str::replaceArray('?', $query->getBindings(), $query->toSql());
+                    $query = $this->getQuerySql($query);
                 }
 
                 $params[$queryName][] = $query;
@@ -199,7 +200,8 @@ class ModelGenerator
             $queries = is_object($queries) ? [$queries] : (array)$queries;
             foreach ($queries as $query) {
                 if ($query instanceof Builder) {
-                    $query = Str::replaceArray('?', $query->getBindings(), $query->toSql());
+                    /* @var PDOConnection $pdo */
+                    $query = $this->getQuerySql($query);
                 }
 
                 $params[$queryName][] = $query;
@@ -245,5 +247,22 @@ class ModelGenerator
         $delta->setParams($params);
 
         return $delta;
+    }
+
+    /**
+     * @param Builder $query
+     *
+     * @return string
+     */
+    private function getQuerySql($query)
+    {
+        $pdo = $query->getConnection()->getPdo();
+        $query = Str::replaceArray(
+            '?'
+            , array_map([$pdo, 'quote'], $query->getBindings())
+            , $query->toSql()
+        );
+
+        return $query;
     }
 }
