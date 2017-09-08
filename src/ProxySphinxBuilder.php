@@ -34,9 +34,17 @@ class ProxySphinxBuilder
      */
     protected $searchString;
 
-    public function __construct($query)
-    {
-        $this->eloquentBuilder = new EloquentBuilder($query);
+    /**
+     * ProxySphinxBuilder constructor.
+     *
+     * @param \Illuminate\Database\Query\Builder $query
+     * @param \Illuminate\Database\Eloquent\Builder $originalBuilder
+     */
+    public function __construct(
+        \Illuminate\Database\Query\Builder $query,
+        \Illuminate\Database\Eloquent\Builder $originalBuilder
+    ) {
+        $this->eloquentBuilder = new $originalBuilder($query);
 
         $this->setupClient();
 

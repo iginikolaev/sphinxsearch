@@ -83,6 +83,8 @@ trait SphinxSearchable
      */
     public function newEloquentBuilder($query)
     {
-        return new ProxySphinxBuilder($query);
+        $originalBuilder = parent::newEloquentBuilder($query);
+
+        return new ProxySphinxBuilder($query, $originalBuilder);
     }
 }
