@@ -187,6 +187,9 @@ class ProxySphinxBuilder
         }
 
         $results = $this->client->runQueries();
+        if ($error = $this->client->getLastError()) {
+            throw new \RuntimeException($error);
+        }
 
         $this->client->resetFilters();
         $this->client->resetGroupBy();
