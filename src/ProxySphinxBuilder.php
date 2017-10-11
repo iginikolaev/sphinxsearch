@@ -188,7 +188,7 @@ class ProxySphinxBuilder
 
         $results = $this->client->runQueries();
         if ($error = $this->client->getLastError()) {
-            throw new \RuntimeException($error);
+            throw new SphinxException($error);
         }
 
         $this->client->resetFilters();
@@ -196,6 +196,7 @@ class ProxySphinxBuilder
 
         $result = head($results);
 
+        // TODO: is there any purpose for this?
         if ($result['error']) {
             throw new SphinxException($result['error']);
         }
