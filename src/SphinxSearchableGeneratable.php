@@ -95,7 +95,7 @@ trait SphinxSearchableGeneratable
 
         $queries = [
             // Since we are overriding sql_query_pre we need to re-add this
-            'SET NAMES utf8',
+            "SET NAMES utf8",
             // Set last_timestamp for sphinx trigger now because if we do that after indexing is completed we might miss some documents
             "INSERT INTO sphinx_trigger (index_name, last_timestamp) VALUES (" . $this->getConnection()->getPdo()->quote($this->getSphinxName()) . ", UNIX_TIMESTAMP()) ON DUPLICATE KEY UPDATE last_timestamp = VALUES(last_timestamp)",
         ];
@@ -166,7 +166,7 @@ trait SphinxSearchableGeneratable
     {
         $queries = [
             // Since we are overriding sql_query_pre we need to re-add this
-            'SET NAMES utf8',
+            "SET NAMES utf8",
             "SELECT @last_id:=last_id, @last_timestamp:=last_timestamp FROM sphinx_trigger WHERE index_name = " . $this->getConnection()->getPdo()->quote($this->getSphinxName()),
         ];
 
