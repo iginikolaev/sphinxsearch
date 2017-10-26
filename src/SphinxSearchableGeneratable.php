@@ -45,6 +45,7 @@ trait SphinxSearchableGeneratable
     use SphinxSearchable;
 
     //<editor-fold desc="Methods for index generation">
+
     /**
      * Get index parent name
      *

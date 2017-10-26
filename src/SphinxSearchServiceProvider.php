@@ -1,4 +1,5 @@
 <?php
+
 namespace Iginikolaev\SphinxSearch;
 
 use Iginikolaev\SphinxSearch\Console\DeltaTableCommand;
@@ -34,7 +35,7 @@ class SphinxSearchServiceProvider extends ServiceProvider
         $this->app->singleton('command.sphinxsearch.generate', function ($app) {
             return new GeneratorCommand($app['files']);
         });
-        $this->app->singleton('command.sphinxsearch.delta-table', function($app){
+        $this->app->singleton('command.sphinxsearch.delta-table', function ($app) {
             return new DeltaTableCommand($app['files'], $app['composer']);
         });
 
@@ -56,6 +57,6 @@ class SphinxSearchServiceProvider extends ServiceProvider
 
     private function getConfigPath()
     {
-        return __DIR__.'/../config/sphinxsearch.php';
+        return __DIR__ . '/../config/sphinxsearch.php';
     }
 }
