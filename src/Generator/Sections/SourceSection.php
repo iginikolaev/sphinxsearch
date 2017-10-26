@@ -11,5 +11,5 @@ class SourceSection extends AbstractSection
     {
         return 'source';
     }
-    
+
 }
